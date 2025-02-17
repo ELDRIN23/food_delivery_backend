@@ -5,8 +5,8 @@ import { Cart } from "../models/cartModel.js";
  */
 export const addItemToCart = async (req, res) => {
     try {
-        const { user_id, dish_id, dish_name, quantity, price_per_item } = req.body;
-
+        const { dish_id, dish_name, quantity, price_per_item } = req.body;
+        const  user_id = req.user._id
         // Find the cart for the user
         let cart = await Cart.findOne({ user_id });
 
@@ -36,6 +36,7 @@ export const addItemToCart = async (req, res) => {
 
         res.status(201).json(cart);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "Failed to add item to the cart.", details: error.message });
     }
 };
@@ -45,7 +46,7 @@ export const addItemToCart = async (req, res) => {
  */
 export const getCartItems = async (req, res) => {
     try {
-        const user_id = req.body.user_id; // Logged-in user ID
+        const  user_id = req.user._id
         const cart = await Cart.findOne({ user_id });
 
         if (!cart) {
@@ -94,7 +95,7 @@ export const updateCartItem = async (req, res) => {
  */
 export const removeCartItem = async (req, res) => {
     try {
-        const { user_id, dish_id } = req.body;
+        const { user_id, dish_id } = req.query;
 
         const cart = await Cart.findOne({ user_id });
         if (!cart) {
