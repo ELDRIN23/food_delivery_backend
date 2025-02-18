@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-const port = process.env.PORT || 3001; // Use environment variable or fallback to 3000
+const port = process.env.PORT || 3000; // Use environment variable or fallback to 3000
 
 // cloudinaryInstance()
 app.use(cors({
