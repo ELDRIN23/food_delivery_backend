@@ -6,12 +6,13 @@ import {
     updateRestaurant,
     deleteRestaurant,
 } from "../controllers/resturantControllers.js";
-import { upload } from "../middlewares/multer.js";
+import imageUpload  from "../middlewares/ImageUpload/imageUpload.js";
+
 
 const router = express.Router();
 
 // Add a new restaurant
-router.post('/add',upload.single('image'), addRestaurant);
+router.post('/add',imageUpload, addRestaurant);
 
 // Get all restaurants
 router.get('/', getAllRestaurants);

@@ -6,13 +6,9 @@ import { generateToken } from "../utils/token.js";
 // Add a new restaurant
 export const addRestaurant = async (req, res) => {
     try {
-        const { name, adders, phone, rating, menu, operating_hours } = req.body;
+        const { name, adders, phone, rating, menu, operating_hours ,image} = req.body;
 
-        let imageUrl = "";
-        if (req.file) {
-            const cloudinaryResponse = await cloudinaryInstance.uploader.upload(req.file.path);
-            imageUrl = cloudinaryResponse.secure_url;
-        }
+     
 
         const existingRestaurant = await Restaurant.findOne({ name });
         if (existingRestaurant) {
@@ -21,7 +17,7 @@ export const addRestaurant = async (req, res) => {
 
         const newRestaurant = new Restaurant({
             name,
-            image: imageUrl,
+            image,
             adders,
             phone,
             rating,
