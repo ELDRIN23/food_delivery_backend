@@ -1,4 +1,5 @@
 import { Cart } from "../models/cartModel.js";
+import mongoose from "mongoose";
 
 /**
  * Add an item to the cart
@@ -95,25 +96,35 @@ export const updateCartItem = async (req, res) => {
  */
 export const removeCartItem = async (req, res) => {
     try {
-        const { user_id, dish_id } = req.query;
+        console.log("Entered removeCartItem function");
+        const { dish_id } = req.params;
+        const user_id = req.user.id; // Assuming user authentication
 
-        const cart = await Cart.findOne({ user_id });
+        if (!mongoose.Types.ObjectId.isValid(dish_id)) {
+            return res.status(400).json({ error: "Invalid dish_id format." });
+        }
+
+        const cart = await Cart.findOneAndUpdate(
+            { user_id },  // Ensure correct cart selection
+            { $pull: { dishes: { dish_id: new mongoose.Types.ObjectId(dish_id) } } },
+            { new: true }
+        );
+
         if (!cart) {
             return res.status(404).json({ error: "Cart not found." });
         }
 
-        cart.dishes = cart.dishes.filter(dish => dish.dish_id.toString() !== dish_id);
-
-        // Calculate the total_amount
-        cart.total_amount = cart.dishes.reduce((sum, dish) => sum + dish.quantity * dish.price_per_item, 0);
-        cart.updatedAt = new Date();
-
+        // Recalculate total_amount
+        cart.total_amount = cart.dishes.reduce((total, item) => total + item.quantity * item.price_per_item, 0);
         await cart.save();
+
         res.status(200).json({ message: "Item removed from cart.", cart });
     } catch (error) {
         res.status(500).json({ error: "Failed to remove cart item.", details: error.message });
     }
 };
+
+
 
 /**
  * Clear all items in the cart

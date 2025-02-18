@@ -1,6 +1,7 @@
 import e from "express";
 import {restaurantAdminRegister,restaurantAdminLogin,restaurantAdminProfile,restaurantAdminLogout,updateRestaurantAdminProfile}from "../controllers/adminControllers.js"
 import {adminAuthMiddleware}from "../middlewares/AdminAuth.js"
+import { fetchDishesForAdmin } from "../controllers/adminDishesController.js";
 
 const router = e.Router();
 
@@ -20,5 +21,6 @@ router.get('/profile',adminAuthMiddleware, restaurantAdminProfile);
 //Updateprofile
 router.get('/updateprofile',adminAuthMiddleware,updateRestaurantAdminProfile );
 
+router.get("/fetch-dishes",adminAuthMiddleware,fetchDishesForAdmin)
 
 export { router as adminRouter };

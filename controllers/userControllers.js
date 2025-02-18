@@ -103,7 +103,7 @@ export const updateUserProfile = async (req, res) => {
     if (name) user.name = name;
     if (address) user.address = address;
     if (phone) user.phone = phone;
-
+    // const profilePicUrl = req.cloudinaryResult?.secure_url || null;
     await user.save();
     res.status(200).json({ message: "Profile updated successfully", user });
   } catch (error) {
