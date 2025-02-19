@@ -69,16 +69,22 @@ export const updateDish = async (req, res) => {
 // Delete a dish
 export const deleteDish = async (req, res) => {
     try {
-        const { id } = req.params;
-
-        const deletedDish = await Dishes.findOneAndDelete({ dish_id: id });
-        if (!deletedDish) return res.status(404).json({ error: "Dish not found" });
-
-        res.status(200).json({ message: "Dish deleted successfully", dish: deletedDish });
+        const { id } = req.params; // Get dish ID from request parameters
+        const deletedDish = await Dishes.findByIdAndDelete(id); // Use "Dishes" instead of "Dish"
+        
+        if (!deletedDish) {
+            return res.status(404).json({ message: "Dish not found" });
+        }
+        
+        res.status(200).json({ message: "Dish deleted successfully" });
     } catch (error) {
-        res.status(500).json({ error: "Failed to delete dish", details: error.message });
+        console.error("Error deleting dish:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
+
 };
+
+
 
 //Dish details
 // export const getDishDetails = async (req, res) => {
