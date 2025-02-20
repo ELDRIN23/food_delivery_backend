@@ -6,6 +6,8 @@ import { generateToken } from "../utils/token.js";
 // Add a new restaurant
 export const addRestaurant = async (req, res) => {
     try {
+
+
         const { name, adders, phone, rating, menu, operating_hours ,image} = req.body;
 
      
@@ -32,6 +34,8 @@ export const addRestaurant = async (req, res) => {
 
         res.status(201).json({ message: "Restaurant added successfully", restaurant: newRestaurant });
     } catch (error) {
+
+        console.log(error)
         res.status(500).json({ error: "Failed to add restaurant", details: error.message });
     }
 };

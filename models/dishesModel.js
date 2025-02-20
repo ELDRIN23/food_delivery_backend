@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const DishesSchema = new mongoose.Schema({
    // dish_id: { type: String, required: true },
-    restaurant_id: { type: mongoose.Schema.Types.ObjectId, ref: "resturant", required: true},
+    restaurant_id: { type: mongoose.Schema.Types.ObjectId, ref: "Restaurant", required: true},
     name: { type: String, required: true },
    image: { type: [String] },
     rating: { type: Number },

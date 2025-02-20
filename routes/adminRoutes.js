@@ -10,7 +10,7 @@ const router = e.Router();
 router.post('/register', restaurantAdminRegister);
 
 //Signin
-router.put('/signin', restaurantAdminLogin);
+router.post('/signin', restaurantAdminLogin);
 
 //Logout
 router.get('/logout',adminAuthMiddleware,  restaurantAdminLogout);

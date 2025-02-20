@@ -75,6 +75,7 @@ export const restaurantAdminLogin = async (req, res, next) => {
     if (!passwordMatch) {
       return res.status(401).json({ message: "User not authenticated" });
     }
+    console.log(userExist)
 
     const token = generateToken(userExist._id, userExist.role);
     res.cookie("token", token);

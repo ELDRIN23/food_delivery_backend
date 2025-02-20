@@ -1,4 +1,5 @@
 import { Dishes } from "../models/dishesModel.js";
+import Restaurant from "../models/resturantModel.js";
 
 // Add a new dish
 export const addDish = async (req, res) => {
@@ -25,7 +26,7 @@ export const addDish = async (req, res) => {
 // Get all dishes
 export const getAllDishes = async (req, res) => {
     try {
-        const dishes = await Dishes.find();
+        const dishes = await Dishes.find().populate("restaurant_id");
         res.status(200).json(dishes);
     } catch (error) {
         res.status(500).json({ error: "Failed to fetch dishes", details: error.message });
@@ -102,3 +103,48 @@ export const deleteDish = async (req, res) => {
 //         res.status(500).json({ error: "Failed to fetch dish details", details: error.message });
 //     }
 // };
+
+
+export const fetchRestaurantWiseDishes = async (req, res) => {
+    try {
+      const restaurantsWithDishes = await Restaurant.aggregate([
+        {
+          $lookup: {
+            from: "dishes",
+            localField: "_id",
+            foreignField: "restaurant_id",
+            as: "dishes",
+          },
+        },
+        {
+          $match: {
+            "dishes.0": { $exists: true }, // Ensure at least 1 dish exists
+          },
+        },
+      
+        {
+          $project: {
+            _id: 1,
+            name: 1,
+            image: 1,
+            adders: 1,
+            phone: 1,
+            rating: 1,
+            menu: 1,
+            role: 1,
+            operating_hours: 1,
+            createdAt: 1,
+            updatedAt: 1,
+            dishes: 1,
+          },
+        },
+      ]);
+  
+      res.status(200).json({ success: true, data: restaurantsWithDishes });
+    } catch (error) {
+      console.error("Error fetching restaurant-wise dishes:", error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+  
+  

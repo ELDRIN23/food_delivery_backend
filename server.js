@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from 'cors';
+import paymentRoute from "./paymentRouter/paymentRoute.js";
+
 //import {apiRouter}from "./routes/userRoutes.js"
 const app = express();
 dotenv.config();
@@ -18,7 +20,7 @@ const port = process.env.PORT || 3000; // Use environment variable or fallback t
 
 // cloudinaryInstance()
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "http://localhost:5174",
   methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
   credentials: true
@@ -30,6 +32,7 @@ app.use(cors({
 connectDB();
 
 // Route API
+app.use('/api/payment' , paymentRoute)
 app.use("/api", apiRouter);
 
 

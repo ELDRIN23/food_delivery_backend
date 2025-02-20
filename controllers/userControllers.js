@@ -95,11 +95,13 @@ export const userProfile = async (req, res) => {
 
 export const updateUserProfile = async (req, res) => {
   try {
-    const { name, address, phone } = req.body;
+    const { name, address, phone,image  } = req.body;
     const user = await User.findById(req.user.id);
     if (!User) {
       res.status(400).json({ message: "user not found" });
     }
+    // user.profilePic
+    if (image) user.profilePic = image;
     if (name) user.name = name;
     if (address) user.address = address;
     if (phone) user.phone = phone;

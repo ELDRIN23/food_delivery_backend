@@ -13,7 +13,8 @@ const RestaurantSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: null },
 });
+const Restaurant  = mongoose.model('Restaurant', RestaurantSchema);
 
-export default  mongoose.model('Restaurant', RestaurantSchema);
 
+export default  Restaurant
 
