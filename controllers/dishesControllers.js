@@ -13,12 +13,13 @@ export const addDish = async (req, res) => {
             rating,
             price,
             description,
-            availability,
+            availability:availability==="yes",
         });
 
         await newDish.save();
         res.status(201).json({ message: "Dish added successfully", dish: newDish });
     } catch (error) {
+      console.log(error)
         res.status(500).json({ error: "Failed to add dish", details: error.message });
     }
 };
@@ -70,8 +71,9 @@ export const updateDish = async (req, res) => {
 // Delete a dish
 export const deleteDish = async (req, res) => {
     try {
-        const { id } = req.params; // Get dish ID from request parameters
-        const deletedDish = await Dishes.findByIdAndDelete(id); // Use "Dishes" instead of "Dish"
+      console.log("entered del fn")
+        const { dishId } = req.params; // Get dish ID from request parameters
+        const deletedDish = await Dishes.findByIdAndDelete(dishId); // Use "Dishes" instead of "Dish"
         
         if (!deletedDish) {
             return res.status(404).json({ message: "Dish not found" });

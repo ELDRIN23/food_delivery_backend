@@ -6,8 +6,14 @@ import { generatePaymentIntent } from "../controllers/payment.js";
 import { createOrder, fetchOrderDetails } from "../controllers/orderController.js";
 import imageUpload from "../middlewares/ImageUpload/imageUpload.js";
 import { getAllUsers } from "../controllers/userControllers.js";
+import { adminAuthMiddleware } from "../middlewares/AdminAuth.js";
 
 const router = express.Router();
+router.use((req, res, next)=>{
+    console.log(req.path)
+    console.log(req.method)
+    next()
+})
 
 // Register
 router.post('/signup',processUpload, userRegister);
@@ -27,8 +33,11 @@ router.put('/updateprofile', userAthmiddleware , imageUpload, updateUserProfile)
 router.post("/create-payment-intent" , userAthmiddleware , generatePaymentIntent)
 
 router.get('/create-order' , userAthmiddleware , createOrder)
+
 router.get('/fetch-orders' , userAthmiddleware , fetchOrderDetails)
-router.get("/users", userAthmiddleware, getAllUsers);
+
+router.get("/users", adminAuthMiddleware, getAllUsers);
+
 
 
 export {router as userRouter};

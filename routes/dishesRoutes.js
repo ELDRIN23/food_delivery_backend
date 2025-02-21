@@ -7,12 +7,13 @@ import {
     deleteDish,
     // getDishDetails,
 } from "../controllers/dishesControllers.js";
-import { processUpload } from "../config/cloudinaryConfig.js";
+
+import imageUpload from "../middlewares/ImageUpload/imageUpload.js";
 
 const router = express.Router();
 
 // Add a new dish
-router.post('/add',processUpload, addDish);
+router.post('/add',imageUpload, addDish);
 
 // Get all dishes
 router.get('/', getAllDishes);
@@ -27,6 +28,6 @@ router.get('/:restaurant_id', getDishesByRestaurant);
 router.put('/:id', updateDish);
 
 // Delete a dish
-router.delete('/:id', deleteDish);
+router.delete('/delete-dish/:dishId', deleteDish);
 
 export {router as dishesRouter};

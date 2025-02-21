@@ -1,40 +1,40 @@
 import express from "express";
 import { connectDB } from "./config/db.js";
-import {apiRouter} from "./routes/index.js"; // Ensure this is exported correctly in your routes file
+import { apiRouter } from "./routes/index.js";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
-import cors from 'cors';
+import cors from "cors";
 import paymentRoute from "./paymentRouter/paymentRoute.js";
+import morgan from "morgan";
 
-//import {apiRouter}from "./routes/userRoutes.js"
-const app = express();
+// Load environment variables at the very beginning
 dotenv.config();
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.json());
-app.use(cookieParser());
-
-const port = process.env.PORT || 3000; // Use environment variable or fallback to 3000
-
-// cloudinaryInstance()
-app.use(cors({
-  origin: "http://localhost:5174",
-  methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
-  credentials: true
-}));
-
-// app.use('/uploads', express.static('uploads'));
+const app = express();
+const port = process.env.PORT || 3000;
 
 // Connect to Database
 connectDB();
 
-// Route API
-app.use('/api/payment' , paymentRoute)
-app.use("/api", apiRouter);
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(morgan("dev")); // Enable logging
 
+// CORS Configuration
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    credentials: true,
+  })
+);
+
+// API Routes
+app.use("/api/payment", paymentRoute);
+app.use("/api", apiRouter);
 
 // Test Route
 app.get("/", (req, res) => {
@@ -42,11 +42,13 @@ app.get("/", (req, res) => {
 });
 
 // Start the Server
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
 
-
-
-
-// foodie
+// Graceful Shutdown
+process.on("SIGINT", async () => {
+  console.log("Shutting down server...");
+  // Add logic to properly close DB connection if needed
+  process.exit(0);
+});

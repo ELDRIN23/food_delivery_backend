@@ -103,3 +103,16 @@ export const deleteRestaurant = async (req, res) => {
         res.status(500).json({ error: "Failed to delete restaurant", details: error.message });
     }
 };
+
+
+
+export const fetchForSelectRestaurant = async(req, res)=>{
+      try {
+        console.log("working:")
+        const restaurantList = await Restaurant.find({},"name")
+        res.status(200).json(restaurantList);
+      } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: "Failed to fetch restaurant", details: error.message }); 
+      }
+}

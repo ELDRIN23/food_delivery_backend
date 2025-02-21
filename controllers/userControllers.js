@@ -115,9 +115,12 @@ export const updateUserProfile = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password"); // Exclude passwords for security
+    console.log("get all users")
+    const users = await User.find().select("-password").lean();
     res.status(200).json({ success: true, users });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error fetching users:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
