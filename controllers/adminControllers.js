@@ -87,6 +87,7 @@ export const restaurantAdminLogin = async (req, res, next) => {
           data: userExist,
           message: "Restaurant owner logged in successfully",
           success: true,
+          token
         });
     }
 
@@ -97,6 +98,7 @@ export const restaurantAdminLogin = async (req, res, next) => {
           data: userExist,
           message: "Admin logged in successfully",
           success: true,
+          token
         });
     }
 
