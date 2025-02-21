@@ -6,7 +6,7 @@ export const userRegister = async (req, res) => {
   try {
     // console.log("user sighnup")
     // console.log(req.body)
-    const { name, address, email, password, phone } = req.body;
+    const { name, address, email, password, phone, image } = req.body;
     // console.log(req.body);
     // console.log("hitted")
 
@@ -18,7 +18,7 @@ export const userRegister = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const profilePicUrl = req.cloudinaryResult?.secure_url || null;
+ 
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = new User({
@@ -27,7 +27,8 @@ export const userRegister = async (req, res) => {
       email,
       password: hashedPassword,
       phone,
-      profilePic: profilePicUrl,
+      profilePic: image || "",
+  
     });
     await user.save();
 
@@ -43,6 +44,7 @@ export const userRegister = async (req, res) => {
         phone: user.phone,
         profilePic: user.profilePic,
         role: user.role,
+        token
       },
     });
 
@@ -73,7 +75,8 @@ export const userSignin = async (req, res) => {
     const token = generateToken(user._id);
     res.cookie("token", token);
 
-    res.status(200).json({ success: true, message: "Signin successful", user });
+
+    res.status(200).json({ success: true, message: "Signin successful", user, token });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

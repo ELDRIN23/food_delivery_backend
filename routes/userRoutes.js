@@ -1,7 +1,7 @@
 import express from "express";
 import { userRegister, userSignin, userLogout, userProfile, updateUserProfile } from "../controllers/userControllers.js";
 import {  userAthmiddleware } from "../middlewares/userAuth.js"; 
-import { processUpload } from "../config/cloudinaryConfig.js";
+
 import { generatePaymentIntent } from "../controllers/payment.js";
 import { createOrder, fetchOrderDetails } from "../controllers/orderController.js";
 import imageUpload from "../middlewares/ImageUpload/imageUpload.js";
@@ -16,7 +16,7 @@ router.use((req, res, next)=>{
 })
 
 // Register
-router.post('/signup',processUpload, userRegister);
+router.post('/signup',imageUpload, userRegister);
 
 // Signin
 router.post('/login', userSignin);

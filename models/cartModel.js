@@ -15,7 +15,7 @@ const CartSchema = new mongoose.Schema({
         required: true,
       },
       dish_name: { type: String, required: true },
-      quantity: { type: Number, required: true, min: 1 }, // Minimum quantity = 1
+      quantity: { type: Number, required: true }, // Minimum quantity = 1
       price_per_item: { type: Number, required: true },
     },
   ],

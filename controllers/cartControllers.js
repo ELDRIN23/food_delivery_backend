@@ -106,7 +106,7 @@ export const updateCartItem = async (req, res) => {
       0
     );
     cart.updatedAt = new Date();
-
+    console.log(cart)
     await cart.save();
     res.status(200).json(cart);
   } catch (error) {

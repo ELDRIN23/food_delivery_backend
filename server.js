@@ -25,7 +25,10 @@ app.use(morgan("dev")); // Enable logging
 // CORS Configuration
 app.use(
   cors({
-    origin: "https://food-delivery-frontend-woad.vercel.app",
+    origin: [
+      "https://food-delivery-frontend-woad.vercel.app", // Production frontend
+      "http://localhost:5173" // Development frontend
+    ],
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     credentials: true,
