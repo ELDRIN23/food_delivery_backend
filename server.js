@@ -26,7 +26,7 @@ app.use(morgan("dev")); // Enable logging
 app.use(
   cors({
     origin: [
-      "https://food-delivery-frontend-woad.vercel.app", // Production frontend
+      "https://food-delivery-frontend-woad.vercel.app","https://food-delivery-frontend-git-main-eldrin-johnsons-projects.vercel.app/",
       "http://localhost:5173" // Development frontend
     ],
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
