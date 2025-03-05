@@ -50,22 +50,25 @@ export const getDishesByRestaurant = async (req, res) => {
 
 // Update dish details
 export const updateDish = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updates = req.body;
+  const { id } = req.params;
+  const { name, rating, price } = req.body; // Extract updated fields
 
-        const updatedDish = await Dishes.findOneAndUpdate(
-            { dish_id: id },
-            { ...updates, updatedAt: new Date() },
-            { new: true }
-        );
+  try {
+    const updatedDish = await Dishes.findByIdAndUpdate(
+      id, 
+      { name, rating, price }, 
+      { new: true } // Returns the updated document
+    );
 
-        if (!updatedDish) return res.status(404).json({ error: "Dish not found" });
-
-        res.status(200).json({ message: "Dish updated successfully", dish: updatedDish });
-    } catch (error) {
-        res.status(500).json({ error: "Failed to update dish", details: error.message });
+    if (!updatedDish) {
+      return res.status(404).json({ message: "Dish not found" });
     }
+
+    res.json({ message: "Dish updated successfully", dish: updatedDish });
+  } catch (err) {
+    console.error("Error updating dish:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 };
 
 // Delete a dish
