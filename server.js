@@ -25,15 +25,13 @@ app.use(morgan("dev")); // Enable logging
 // CORS Configuration
 app.use(
   cors({
-    origin: [
-      "https://food-delivery-frontend-woad.vercel.app","https://food-delivery-frontend-git-main-eldrin-johnsons-projects.vercel.app/",
-      "http://localhost:5173","https://food-delivery-frontend-woad.vercel.app/" // Development frontend
-    ],
+    origin: "*", 
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     credentials: true,
   })
 );
+
 
 // API Routes
 app.use("/api/payment", paymentRoute);
