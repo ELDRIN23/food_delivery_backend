@@ -25,7 +25,7 @@ app.use(morgan("dev")); // Enable logging
 // CORS Configuration
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin: "https://food-delivery-frontend-omega.vercel.app/",
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     credentials: true,
