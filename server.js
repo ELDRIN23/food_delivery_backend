@@ -25,12 +25,13 @@ app.use(morgan("dev")); // Enable logging
 // CORS Configuration
 app.use(
   cors({
-    origin: "*", 
+    origin: "http://localhost:5173", 
     methods: ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
     credentials: true,
   })
 );
+
 
 
 // API Routes
